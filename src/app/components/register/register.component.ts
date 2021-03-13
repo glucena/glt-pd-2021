@@ -13,13 +13,14 @@ import usersList from 'src/assets/json/users.json';
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  dataLoading: boolean = false;
+  dataLoading = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router
   ) { }
 
+  //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       first_name: [ '', [Validators.required, Validators.minLength(3)]],
@@ -27,18 +28,23 @@ export class RegisterComponent implements OnInit {
       username: [ '', [Validators.required, Validators.minLength(3)]],
       email: [ '', [Validators.required, Validators.minLength(6)]],
 
-    })
+    });
   }
+  //#endregion
 
+  //#region UI METHODS
   registerUser() {
-    if (this.registerForm.invalid) { return }
+    if (this.registerForm.invalid) { return; }
+
     // TODO : Falta integrar el servicio para registrar al usuario
     // JSON simulando usuarios
-    var userLogin = this.registerForm.value;
-    usersList.push(userLogin)
-    console.log('User Register -->', usersList)
-    this.router.navigate(['/principal/ships'])
+    const userLogin = this.registerForm.value;
 
+    usersList.push(userLogin);
+
+    console.log('User Register -->', usersList);
+
+    this.router.navigate(['/principal/ships']);
   }
-
+  //#endregion
 }

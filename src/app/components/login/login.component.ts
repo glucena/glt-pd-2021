@@ -13,33 +13,40 @@ import usersList from 'src/assets/json/users.json';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  dataLoading: boolean = false;
+  dataLoading = false;
   users: any = usersList;
-  unregistered: boolean = false;
-  invalid: boolean = false;
+  unregistered = false;
+  invalid = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router
   ) { }
 
+  //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: [ '', [Validators.required, Validators.minLength(3)]],
       password: [ '', [Validators.required, Validators.minLength(6)]]
-    })
+    });
   }
+  //#endregion
+
+  //#region UI METHODS
   loginUser() {
-    if (this.loginForm.invalid) { return }
+    if (this.loginForm.invalid) { return; }
+
     // TODO : Falta integrar el servicio para autentificar al usuario
     // JSON simulando usuarios
-    var userLogin = this.loginForm.value.username;
-    var filterJson = this.users.filter(function (user) { return user.first_name === userLogin  });
+    const userLogin = this.loginForm.value.username;
+    const filterJson = this.users.filter(user => user.first_name === userLogin);
+
     if (filterJson.length > 0) {
       this.router.navigate(['/principal/ships']);
     } else {
       this.unregistered = true;
     }
   }
+  //#endregion
 }
 

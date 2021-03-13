@@ -12,10 +12,12 @@ export class ShipsComponent implements OnInit {
 
   constructor( private shipsService: ShipsService) {}
 
+  //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
     this.shipsService.getShips().subscribe((ships) => {
       this.dataList = ships;
       console.log('SHIPS -->', this.dataList.results);
     });
   }
+  //#endregion
 }

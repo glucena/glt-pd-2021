@@ -9,7 +9,9 @@ export class PrincipalComponent implements OnInit {
 
   constructor() { }
 
+  //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
   }
+  //#endregion
 
 }

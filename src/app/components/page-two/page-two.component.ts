@@ -9,7 +9,9 @@ export class PageTwoComponent implements OnInit {
 
   constructor() { }
 
+  //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
   }
+  //#endregion
 
 }
