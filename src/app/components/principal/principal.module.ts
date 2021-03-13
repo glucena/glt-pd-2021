@@ -4,15 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PrincipalComponentsRoutingModule } from './principal-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-// Components
-import { PageOneComponent } from '../page-one/page-one.component';
-import { PageTwoComponent } from '../page-two/page-two.component';
-
 @NgModule({
-  declarations: [
-    PageOneComponent,
-    PageTwoComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     PrincipalComponentsRoutingModule,
