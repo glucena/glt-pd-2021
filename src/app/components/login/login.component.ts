@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     var userLogin = this.loginForm.value.username;
     var filterJson = this.users.filter(function (user) { return user.first_name === userLogin  });
     if (filterJson.length > 0) {
-      this.router.navigate(['/principal/ships'])
+      this.router.navigate(['/principal/ships']);
     } else {
       this.unregistered = true;
     }
