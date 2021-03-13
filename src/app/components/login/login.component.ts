@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { of, Observable } from 'rxjs';
 
 import { LoginService } from 'src/app/shared/services/login.service';
 
@@ -40,24 +41,24 @@ export class LoginComponent extends BaseComponent implements OnInit {
   //#endregion
 
   //#region UI METHODS
-  loginUser() {
+  loginUser(): Observable<any> {
     if (this.loginForm.invalid) { return; }
 
-    // TODO : Falta integrar el servicio para autentificar al usuario
-    // JSON simulando usuarios
     const {username, password} = this.loginForm.value;
 
     const subscription = this.loginService.login({username, password})
       .subscribe(user => {
-        console.log('autenticated', user);
-
         this.router.navigate(['/principal/ships']);
       }, error => {
         this.unregistered = true;
+        return of(undefined);
       });
 
     // The subscription will be undone automatically. See componentBase.
     this.subscriptions.push(subscription);
+
+    // Return an observable, so we can test it
+    return of(subscription);
   }
   //#endregion
 }
