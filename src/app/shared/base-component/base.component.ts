@@ -1,13 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { Subscription } from 'rxjs';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
 /**
  * Base component
  *
  * Automatically unsubscribe from observable subscriptions when the component is destroyed
  */
-@AutoUnsubscribe()
+@UntilDestroy({ checkProperties: true })
 @Component({
     selector: 'app-base-component',
     template: 'THIS COMPONENT HAS NOT UI',

@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { of, Observable } from 'rxjs';
+
+import { LoginService } from 'src/app/shared/services/login.service';
+
+import { BaseComponent } from 'src/app/shared/base-component/base.component';
 
 // JSON
 import usersList from 'src/assets/json/users.json';
@@ -10,7 +15,7 @@ import usersList from 'src/assets/json/users.json';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent implements OnInit {
 
   loginForm: FormGroup;
   dataLoading = false;
@@ -20,8 +25,11 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
-  ) { }
+    private loginService: LoginService,
+    private router: Router,
+  ) {
+    super();
+   }
 
   //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
@@ -33,19 +41,24 @@ export class LoginComponent implements OnInit {
   //#endregion
 
   //#region UI METHODS
-  loginUser() {
+  loginUser(): Observable<any> {
     if (this.loginForm.invalid) { return; }
 
-    // TODO : Falta integrar el servicio para autentificar al usuario
-    // JSON simulando usuarios
-    const userLogin = this.loginForm.value.username;
-    const filterJson = this.users.filter(user => user.first_name === userLogin);
+    const {username, password} = this.loginForm.value;
 
-    if (filterJson.length > 0) {
-      this.router.navigate(['/principal/ships']);
-    } else {
-      this.unregistered = true;
-    }
+    const subscription = this.loginService.login({username, password})
+      .subscribe(user => {
+        this.router.navigate(['/principal/ships']);
+      }, error => {
+        this.unregistered = true;
+        return of(undefined);
+      });
+
+    // The subscription will be undone automatically. See componentBase.
+    this.subscriptions.push(subscription);
+
+    // Return an observable, so we can test it
+    return of(subscription);
   }
   //#endregion
 }
