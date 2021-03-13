@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ShipsRoutingModule } from './ships-routing.module';
 // Components
@@ -13,7 +12,6 @@ import { ShipsDetailsComponent } from './ships-details/ships-details.component';
         ShipsDetailsComponent
     ],
     imports: [
-        CommonModule,
         NgxPaginationModule,
         SharedModule,
         ShipsRoutingModule,
