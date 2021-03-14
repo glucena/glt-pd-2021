@@ -1,3 +1,5 @@
 <div class="container">
-    <app-ships-details [dataList]="(dataList$ | async)"></app-ships-details>
+    <app-ships-details [dataList]="(dataList$ | async)?.ships"></app-ships-details>
+
+    <!-- <pre> {{ (dataList$ | async)?.ships | json }} </pre> -->
 </div>

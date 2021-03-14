@@ -24,19 +24,21 @@ export class ShipsDetailsComponent extends BaseComponent implements OnInit, OnCh
 
   constructor() {
     super();
+
+    this.config = {
+      itemsPerPage: 5,
+      currentPage: 1
+    };
   }
 
   //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
-      this.config = {
-        itemsPerPage: 5,
-        currentPage: 1
-      };
+
   }
 
   ngOnChanges(changes: SimpleChanges){
     if (this.dataList) {
-      this.config.totalItems = this.dataList.count;
+      this.config.totalItems = this.dataList.count || 0;
     }
 }
   //#endregion
