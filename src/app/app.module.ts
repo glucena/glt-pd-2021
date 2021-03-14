@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { reducer } from './store/app.reducer';
+
+import { CacheInterceptor } from './shared/interceptors/cache.interceptor';
+import { RequestCacheService } from './shared/services/request-cache.service';
 
 // Components
 import { AppComponent } from './app.component';
@@ -31,7 +35,10 @@ import { PrincipalModule } from './components/principal/principal.module';
       ships: reducer
     }),
   ],
-  providers: [],
+  providers: [
+    RequestCacheService,
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
