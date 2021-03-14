@@ -9,7 +9,6 @@ export const initialState = {
 };
 
 export function reducer(state: AppState = initialState, action: ShipsActions) {
-    console.log(action);
     switch (action.type) {
         case SHIP_LIST:
             return {

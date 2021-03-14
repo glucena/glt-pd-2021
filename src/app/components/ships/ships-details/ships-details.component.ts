@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 declare var $: any;
 
@@ -11,6 +11,9 @@ declare var $: any;
 export class ShipsDetailsComponent implements OnChanges {
 
   @Input() dataList: any;
+
+  @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
+
   config: any;
   shipId: string = '';
   url: string = '';
@@ -22,7 +25,7 @@ export class ShipsDetailsComponent implements OnChanges {
 
   constructor() {
     this.config = {
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       currentPage: 1
     };
   }
@@ -42,8 +45,9 @@ export class ShipsDetailsComponent implements OnChanges {
     return urlImage !== '';
   }
 
-  pageChanged(event){
-    this.config.currentPage = event;
+  onPageChanged(page) {
+    this.config.currentPage = page;
+    this.pageChanged.emit(page);
   }
 
   openDetails(details) {

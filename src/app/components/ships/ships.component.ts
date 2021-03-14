@@ -9,6 +9,7 @@ import { BaseComponent } from 'src/app/shared/base-component/base.component';
 import { Ship } from 'src/app/shared/models/ship.model';
 import { ShipsService } from 'src/app/shared/services/ships.service';
 import { SHIP_LIST } from '../../store/actions/ships.action';
+import { flatMap, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ships',
@@ -32,7 +33,6 @@ export class ShipsComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.shipsService.getShips()
       .subscribe((dataList) => {
-        console.log(dataList);
         this.store.dispatch({
           type: SHIP_LIST,
           payload: dataList
@@ -41,6 +41,21 @@ export class ShipsComponent extends BaseComponent implements OnInit {
 
     // The subscription will be undone automatically. See componentBase.
     this.subscriptions.push(subscription);
+  }
+  //#endregion
+
+  //#region UI METHODS
+  getShipsPage(page = 1) {
+    this.shipsService.getShips(page)
+      .pipe(
+        take(1)
+      )
+      .subscribe((dataList) => {
+        this.store.dispatch({
+          type: SHIP_LIST,
+          payload: dataList
+        });
+      });
   }
   //#endregion
 }
