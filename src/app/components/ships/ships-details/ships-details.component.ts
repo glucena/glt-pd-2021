@@ -15,13 +15,13 @@ export class ShipsDetailsComponent implements OnChanges {
   @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
   config: any;
-  shipId: string = '';
-  url: string = '';
+  shipId = '';
+  url = '';
 
   // Modal
-  titleDetails: string = '';
-  modelDetails: string = '';
-  starship_class: string = '';
+  titleDetails = '';
+  modelDetails = '';
+  starshipClass = '';
 
   constructor() {
     this.config = {
@@ -40,9 +40,15 @@ export class ShipsDetailsComponent implements OnChanges {
 
   //#region UI METHODS
   getStarshipId(url) {
-    this.shipId = url.slice(0, -1);
-    const urlImage = `${this.shipId}.jpg`;
-    return urlImage !== '';
+    const regex = /\/api\/starships\/(\d+)\/?$/;
+
+    this.shipId = regex.test(url)
+      ? url.match(regex)[1]
+      : undefined;
+
+    const urlImage = `https://starwars-visualguide.com/assets/img/starships/${this.shipId}.jpg`
+
+    return urlImage;
   }
 
   onPageChanged(page) {
@@ -55,7 +61,7 @@ export class ShipsDetailsComponent implements OnChanges {
     $('#exampleModal').modal('show');
     this.titleDetails = details.name;
     this.modelDetails = details.model;
-    this.starship_class = details.starship_class;
+    this.starshipClass = details.starship_class;
   }
   //#endregion
 
