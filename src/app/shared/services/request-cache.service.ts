@@ -17,14 +17,17 @@ export class RequestCacheService {
     }
 
     const isExpired = cached.lastRead < (Date.now() - maxAge);
-    const expired = isExpired ? 'expired ' : '';
+    if (isExpired) {
+      return undefined;
+    }
 
     return cached.response;
   }
 
   put(req: HttpRequest<any>, response: HttpResponse<any>): void {
-    const url = req.url;
+    const url = req.urlWithParams;
     const entry = { url, response, lastRead: Date.now() };
+
     this.cache.set(url, entry);
 
     const expired = Date.now() - maxAge;
