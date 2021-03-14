@@ -1,38 +1,51 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs';
+import { BaseComponent } from 'src/app/shared/base-component/base.component';
+import { Ship } from 'src/app/shared/models/ship.model';
 declare var $: any;
 
 
 @Component({
-  selector: 'ships-details',
+  selector: 'app-ships-details',
   templateUrl: './ships-details.component.html',
   styleUrls: ['./ships-details.component.scss']
 })
-export class ShipsDetailsComponent implements OnInit {
+export class ShipsDetailsComponent extends BaseComponent implements OnInit, OnChanges {
 
   @Input() dataList: any;
   config: any;
   shipId: string = '';
   url: string = '';
+
   // Modal
   titleDetails: string = '';
   modelDetails: string = '';
   starship_class: string = '';
 
-  constructor() { 
+  constructor() {
+    super();
   }
-  
+
+  //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
       this.config = {
         itemsPerPage: 5,
-        currentPage: 1,
-        totalItems: this.dataList.length
+        currentPage: 1
       };
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    if (this.dataList) {
+      this.config.totalItems = this.dataList.count;
+    }
+}
+  //#endregion
+
+  //#region UI METHODS
   getStarshipId(url) {
-    this.shipId = url.slice(0, -1)
-    const urlImage = `${this.shipId}.jpg`
-    return urlImage !== "";
+    this.shipId = url.slice(0, -1);
+    const urlImage = `${this.shipId}.jpg`;
+    return urlImage !== '';
   }
 
   pageChanged(event){
@@ -40,10 +53,12 @@ export class ShipsDetailsComponent implements OnInit {
   }
 
   openDetails(details) {
-    $("#exampleModal").modal('show');
+    // TODO: replace jQuery
+    $('#exampleModal').modal('show');
     this.titleDetails = details.name;
     this.modelDetails = details.model;
     this.starship_class = details.starship_class
   }
+  //#endregion
 
 }

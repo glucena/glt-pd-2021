@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Ship } from 'src/app/shared/models/ship.model';
 import { ShipsService } from 'src/app/shared/services/ships.service';
 
 @Component({
@@ -8,16 +10,13 @@ import { ShipsService } from 'src/app/shared/services/ships.service';
 })
 export class ShipsComponent implements OnInit {
 
-  public dataList: any = [];
+  public dataList$: Observable<Ship[]>;
 
   constructor( private shipsService: ShipsService) {}
 
   //#region ANGULAR LIFECYCLE HOOKS
   ngOnInit(): void {
-    this.shipsService.getShips().subscribe((ships) => {
-      this.dataList = ships;
-      console.log('SHIPS -->', this.dataList.results);
-    });
+    this.dataList$ = this.shipsService.getShips();
   }
   //#endregion
 }
