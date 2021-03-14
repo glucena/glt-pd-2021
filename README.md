@@ -34,5 +34,21 @@ Navigate to `http://localhost:4200/`.
 
 
 # Notas del desarrollador:
+He decidido utilizar el inglés como idioma para los commits y comentarios de código.
+
+He empezado refactorizando la estructura de proyecto para enfocarla en una estructura por funcionalidad ("feature based architecture"). De esta forma, es más sencillo escalar la aplicacion añadiendo nuevos modulos que aporten funcionalidades y dividir módulos complejos en submodulos mas sencillos y fáciles de mantener. 
+
+La carga de módulos se realizara a demanda (lazy load) lo que permite al build de angular dividir el aplicativo en trozos (chunks) que aligeran la carga inicial y mejoran el rendimiento apreciado por el usuario.
+
+Para el registro y autenticación he creado un microservicio disponible en https://github.com/glucena/glt-pd-backend-2021.git. El servicio inicializa los usuarios contenidos en assets/json/users.json y registra en memoria los nuevos usuarios. El servicio no tiene base de datos por lo que los usuarios persisten sólo durante el tiempo de ejecución.
+
+En cuanto a la implementación del patrón redux, por motivos de tiempo he optado por un diseño simplificado con los elementos básicos. Con más tiempo se podría modelar con más detalle.
+
+## Performance
+Desde el punto de vista del rendimiento, he decidido montar una cache sencilla para las llamadas al API. La he implementado empleando un interceptor de Http que almacena y recupera datos desde un servicio de caché.
+
+Como alternativa a esta implementación de la cache se podría considerar la implementación de un Service Worker, convirtiendo la aplicación en una Web Progresiva. Una de las características del Service Worker es la de hacer de caché. Sin embargo al ser algo más compleja, habría que valorar temas de compatibilidad y funcionalidades para decidirse por su implementación.
+
+En cuanto a las medidas adicionales a las de implementación, la primera que me viene a la mente es la de la monitorización. Conociendo cual es el uso de la aplicación de pueden identificar áreas de mejora y tomar medidas tales como: cache en lado servidor, API management tools, despliegue de multiples nodos a demanda... 
 
 
