@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs';
-import { BaseComponent } from 'src/app/shared/base-component/base.component';
-import { Ship } from 'src/app/shared/models/ship.model';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 declare var $: any;
 
 
@@ -10,7 +8,7 @@ declare var $: any;
   templateUrl: './ships-details.component.html',
   styleUrls: ['./ships-details.component.scss']
 })
-export class ShipsDetailsComponent extends BaseComponent implements OnInit, OnChanges {
+export class ShipsDetailsComponent implements OnChanges {
 
   @Input() dataList: any;
   config: any;
@@ -23,8 +21,6 @@ export class ShipsDetailsComponent extends BaseComponent implements OnInit, OnCh
   starship_class: string = '';
 
   constructor() {
-    super();
-
     this.config = {
       itemsPerPage: 5,
       currentPage: 1
@@ -32,10 +28,6 @@ export class ShipsDetailsComponent extends BaseComponent implements OnInit, OnCh
   }
 
   //#region ANGULAR LIFECYCLE HOOKS
-  ngOnInit(): void {
-
-  }
-
   ngOnChanges(changes: SimpleChanges){
     if (this.dataList) {
       this.config.totalItems = this.dataList.count || 0;
@@ -59,7 +51,7 @@ export class ShipsDetailsComponent extends BaseComponent implements OnInit, OnCh
     $('#exampleModal').modal('show');
     this.titleDetails = details.name;
     this.modelDetails = details.model;
-    this.starship_class = details.starship_class
+    this.starship_class = details.starship_class;
   }
   //#endregion
 
