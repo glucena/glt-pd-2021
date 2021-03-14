@@ -1,35 +1,45 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { ShipsService } from 'src/app/shared/services/ships.service';
+import { Store } from '@ngrx/store';
 
 import { ShipsComponent } from './ships.component';
 
 
 
 import { BehaviorSubject, of } from 'rxjs';
+import { AppState } from 'src/app/store/app.reducer';
 
 describe('ShipsComponent', () => {
   let component: ShipsComponent;
   let fixture: ComponentFixture<ShipsComponent>;
-  const serviceMock ={
-    getShips:function(){ return  new BehaviorSubject([])}
-    
-  }
+  const serviceMock = {
+    getShips() { return  new BehaviorSubject([]); }
+  };
 
-  
+  const storeMock = {
+    select: () => {},
+    dispatch: () => {}
+  };
+
   @Component({
-    selector: 'ships-details',
+    selector: 'app-ships-details',
     template: '<p>Mock Ship Details</p>'
   })
   class MockShipDetails {
-    @Input() dataList:any;
+    @Input() dataList: any;
   }
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShipsComponent,MockShipDetails ],
-      providers:[
-        {provide: ShipsService, useValue: serviceMock} 
+      declarations: [
+        ShipsComponent,
+        MockShipDetails
+      ],
+      providers: [
+        Store,
+        {provide: ShipsService, useValue: serviceMock},
+        {provide: Store, useValue: storeMock},
       ]
     })
     .compileComponents();
